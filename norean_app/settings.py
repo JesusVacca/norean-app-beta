@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.1.12',
     '192.168.1.16',
+    'web-production-4a6b.up.railway.app'
 ]
 
 
@@ -155,4 +156,4 @@ EMAIL_HOST_USER = 'jesus.vacca99@gmail.com'
 EMAIL_HOST_PASSWORD = 'ctcu bxtq ytoj jzwd'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-SITE_URL = 'http://192.168.1.12:8000'
+SITE_URL = 'web-production-4a6b.up.railway.app'
