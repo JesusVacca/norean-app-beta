@@ -32,7 +32,6 @@ SECRET_KEY = 'django-insecure-#80a4nx-%qwac2aao2&#(7joz+u&(dd1xjnx0ksl$0=znqvq7h
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
-
 print(os.getenv('ALLOWED_HOSTS'))
 # Application definition
 
@@ -91,7 +90,7 @@ DATABASES = {
         'ENGINE': os.getenv('ENGINE'),
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQLUSER'),
-        'PASSWORD': os.getenv('MYSQL_ROOT_PASSWORD'),
+        'PASSWORD': os.getenv('MYSQLPASSWORD'),
         'HOST': os.getenv('MYSQLHOST'),
         'PORT': os.getenv('MYSQLPORT'),
         "OPTIONS": {
@@ -158,5 +157,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_URL='web-production-66fb0.up.railway.app'
 CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-66fb0.up.railway.app/'
+    'https://web-production-66fb0.up.railway.app'
 ]
