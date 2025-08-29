@@ -160,4 +160,7 @@ EMAIL_HOST_USER = 'jesus.vacca99@gmail.com'
 EMAIL_HOST_PASSWORD = 'ctcu bxtq ytoj jzwd'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-SITE_URL = 'web-production-4a6b.up.railway.app'
+SITE_URL='web-production-66fb0.up.railway.app'
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-66fb0.up.railway.app/'
+]
