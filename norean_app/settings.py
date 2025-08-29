@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'norean_app.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("MYSQL_URL"))
+    'default': dj_database_url.config(default=os.environ.get("MYSQL_URL") or os.environ.get("DATABASE_URL"))
 }
 
 
