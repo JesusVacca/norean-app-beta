@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-
+print(os.getenv('ALLOWED_HOSTS'))
 # Application definition
 
 INSTALLED_APPS = [
