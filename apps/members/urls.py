@@ -6,7 +6,7 @@ app_name = 'members'
 urlpatterns = [
     path('', views.ListMembersView.as_view(), name='list'),
     path('create/', views.CreateMemberView.as_view(), name='create'),
-    path('create-multiple-members/', views.CreateMultipleMembersByCSVView.as_view(), name='create-multiple-members'),
+    # path('create-multiple-members/', views.CreateMultipleMembersByCSVView.as_view(), name='create-multiple-members'),
     path('<str:email>/change/', views.UpdateMemberView.as_view(), name='update'),
     path('<str:email>/toggle-status-member/', views.ToggleMemberStatusView.as_view(), name='toggle-status-member'),
 
