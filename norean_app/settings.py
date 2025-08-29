@@ -86,14 +86,21 @@ WSGI_APPLICATION = 'norean_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+def get_env(key, default=None):
+    value = os.getenv(key, default)
+    if value:
+        return value.strip('"').strip("'")  # quita comillas simples o dobles
+    return value
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE'),
-        'USER': os.getenv('MYSQL_USER'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('MYSQL_HOST'),
-        'PORT': os.getenv('MYSQL_PORT'),
+        'NAME': get_env('MYSQL_DATABASE'),
+        'USER': get_env('MYSQL_USER'),
+        'PASSWORD': get_env('MYSQL_PASSWORD'),
+        'HOST': get_env('MYSQL_HOST'),
+        'PORT': get_env('MYSQL_PORT'),
     }
 }
 
