@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="main-title">
+    <i class="bi bi-houses"></i>
+        Listado de todas las aulas del sistema
+    </h2>
+    <p class="secondary-title">
+        En esta sección encontrarás toda la información relacionada con cada aula.
+    </p>
+    <div class="table__filter card-custom">
+        <div class="table__filter__container-title">
+            <h3 class="table__filter-title">
+                <i class="bi bi-filter-square"></i>
+                Filtrar
+            </h3>
+            <div class="table__filter-buttons">
+                <a href="{% url 'management:classroom:create' %}" class="primary-button">
+                    <i class="bi bi-house-add"></i>
+                    Agregar nuevo
+                </a>
+            </div>
+        </div>
+        <form class="table__filter-form" method="get">
+            <div class="table__filter-group">
+                <input
+                        class="form__input"
+                        type="text" placeholder="Buscar por nombre de aula, director de aula, etiqueta"
+                        aria-label="Buscar"
+                        name="search"
+                        value="{{ search }}"
+                >
+            </div>
+        </form>
+    </div>
+
+    <div class="table__container card-custom">
+        {% if classrooms %}
+        <div class="table__pagination">
+            <div class="table__pagination__total">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}, aulas {{ page_obj.paginator.count }}
+            </div>
+            <div class="table__pagination__buttons">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Anterior</span>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                        <i class="bi bi-arrow-left"></i>
+                        <span>Anterior</span>
+                    </span>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="table">
+            <div class="table__header">
+                <div class="table__row">
+                    <div class="table__cell">Nombre</div>
+                    <div class="table__cell">Etiqueta</div>
+                    <div class="table__cell">Docente encargado</div>
+                    <div class="table__cell cell-icon" title="Capacidad maxima de alumnos">Capacidad</div>
+                    <div class="table__cell">Fecha creación</div>
+                    <div class="table__cell"><i class="bi bi-menu-app-fill"></i></div>
+                </div>
+            </div>
+            <div class="table__body">
+                {% for classroom in classrooms %}
+                    <div class="table__row">
+                        <div class="table__cell">
+                            <div class="table__cell-info">
+                                <div class="table__cell-icon">
+                                    <span>{{ classroom.name.0|upper }}</span>
+                                </div>
+                                <div class="table__cell-info__content">
+                                    <div class="table__cell-info__content-name">{{ classroom.name }}</div>
+                                    <div class="table__cell-info__content-phone">{% if classroom.label %}{{ classroom.label }}{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__cell">
+                            <p class="table__cell-badge {% if not classroom.label %} info {% endif %}">
+                                {% if classroom.label %}
+                                <i class="bi bi-tag"></i>
+                                {{ classroom.label }}
+                                {% else %}
+                                    <i class="bi bi-exclamation-diamond"></i>
+                                    No aplica
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="table__cell">
+                            <p class="table__cell-badge docente">
+                                {% if classroom.classroom_manager %}
+                                    <i class="bi bi-mortarboard"></i>
+                                    {{classroom.classroom_manager}}
+                                {% else %}
+                                    <i class="bi bi-exclamation-diamond"></i>
+                                    Sin asignar
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="table__cell cell-icon">
+                            <p class="table__cell-badge info">
+                                <i class="bi bi-people"></i>
+                                {{classroom.capacity}}
+                            </p>
+                        </div>
+                        <div class="table__cell">
+                            <p class="table__cell-badge info">
+                                <i class="bi bi-calendar3"></i>
+                                <span>
+                                {{classroom.created_at}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="table__cell">
+                            <div class="table__cell-acctions">
+                                <a href="{% url 'management:classroom:update' pk=classroom.pk %}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+            {% include 'includes/not_result.html' %}
+        {% endif %}
+    </div>
+    <input type="hidden" value="2" id="section-data">
+{% endblock content %}

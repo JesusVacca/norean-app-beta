@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card-custom" style="max-width: 550px; margin: auto; text-align: center;">
+        <h2 style="color:var(--btn-danger)">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>Permiso denegado</span>
+        </h2>
+        <p>No tienes autorización para estar aquí</p>
+        <a href="{% url 'management:core:dashboard' %}" class="primary-button" style="margin: 1rem auto;">
+            <i class="bi bi-arrow-left"></i>
+            <span>Ir al dashboard</span>
+        </a>
+    </div>
+{% endblock content %}

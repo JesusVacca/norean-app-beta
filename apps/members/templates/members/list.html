@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="main-title">
+    <i class="bi bi-people"></i>
+        Listado de todos los usuarios del sistema
+    </h2>
+    <p class="secondary-title">
+        En esta sección encontrarás toda la información relacionada con cada usuario.
+    </p>
+    <div class="table__filter card-custom">
+        <div class="table__filter__container-title">
+            <h3 class="table__filter-title">
+                <i class="bi bi-filter-square"></i>
+                Filtrar
+            </h3>
+            <div class="table__filter-buttons">
+                <a href="{% url 'management:members:create' %}" class="primary-button">
+                    <i class="bi bi-person-plus"></i>
+                    Agregar nuevo
+                </a>
+                <a href="{% url 'management:members:create-multiple-members' %}" class="secondary-button">
+                    <i class="bi bi-file-earmark-diff"></i>
+                    Creación múltiple
+                </a>
+            </div>
+        </div>
+        <form class="table__filter-form" method="get">
+            <div class="table__filter-group">
+                <input
+                        class="form__input"
+                        type="text" placeholder="Buscar por, nombres, apellidos, correo electrónico..."
+                        aria-label="Buscar"
+                        name="search"
+                        value="{{ search }}"
+                >
+            </div>
+            <div class="table__filter-group">
+                <select
+                        class="form__input"
+                        name="selected_role"
+                        aria-label="Seleccione un rol para filtrar"
+                        onchange="this.form.submit()"
+                >
+                    <option value="">- Todos los roles -</option>
+                    {% if groups_user %}
+                        {% for group in groups_user %}
+                        <option value="{{ group.name }}" {% if selected_role == group.name %}selected{% endif %}>{{ group.name|title }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="table__container card-custom">
+        {% if members %}
+        <div class="table__pagination">
+            <div class="table__pagination__total">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}, usuarios {{ page_obj.paginator.count }}
+            </div>
+            <div class="table__pagination__buttons">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Anterior</span>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                        <i class="bi bi-arrow-left"></i>
+                        <span>Anterior</span>
+                    </span>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+              {% include 'includes/table_members.html' with members=members show_columns="show_cell_active, show_cell_actions, show_cell_email, show_cell_groups" %}
+        {% else %}
+            {% include 'includes/not_result.html' %}
+        {% endif %}
+    </div>
+    <input type="hidden" value="1" id="section-data">
+{% endblock content %}

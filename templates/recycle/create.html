@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="table__filter__container-title">
+        <div class="table__filter-buttons start-items">
+            <a href="{% if go_back %}{{ go_back }}{% else %}{% url 'management:members:list' %}{% endif %}" class="primary-button">
+                <i class="bi bi-arrow-left"></i>
+                Volver atrás
+            </a>
+        </div>
+    </div>
+    <div class="form__container">
+        <div class="form__card">
+            <div class="form__header">
+                <div class="form__title">{{ text_button|title }}</div>
+                <div class="form__subtitle">{{ subtitle }}</div>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_custom }}
+                <button
+                        type="submit"
+                        class="primary-button"
+                >
+                    {{ text_button }}
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

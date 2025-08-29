@@ -1,0 +1,135 @@
+.not_result {
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
+    background: var(--container-bg);
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 40px auto;
+    box-shadow: var(--soft-shadow);
+}
+
+.not_result-code {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 2.5rem;
+    color: var(--btn-danger);
+    font-weight: bold;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.not_results-img {
+    max-width: 280px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.no-results-text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+/* Spinner */
+.spinner {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 7, 7, 0.42);
+    color: #FFFFFF;
+    font-size: 2rem;
+    z-index: 99;
+
+}
+
+.spinner__content {
+    display: flex;
+    gap: 0.5em;
+}
+
+.spinner__icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--container-bg, #333);
+    animation: bounce 0.6s ease-in-out infinite;
+}
+
+/* Escalonamos los saltos */
+.spinner__icon:nth-child(1) {
+    animation-delay: 0s;
+}
+.spinner__icon:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.spinner__icon:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.spinner__icon:nth-child(4) {
+    animation-delay: 0.3s;
+}
+.spinner__icon:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+/* Modal QR */
+
+.modal-custom{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 5, 0.44);
+    z-index: 100;
+    display: none;
+    grid-template-columns: repeat(auto-fit, minmax(min(400px,100%),400px));
+    place-content: center;
+    padding: 4vw;
+}
+
+.modal-custom.open-modal-custom{
+    display: flex;
+}
+.modal-custom.open-modal{
+    display: grid;
+}
+
+.modal__qr__content{
+    background: var(--container-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--soft-shadow);
+    padding: inherit;
+}
+.modal__qr__content h4{
+    font-size: 1.2rem;
+    text-align: center;
+}
+.modal__qr__content img{
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+.modal__qr__content a{
+    font-size: 1rem;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+    40% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+

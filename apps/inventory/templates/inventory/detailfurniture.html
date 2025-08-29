@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ furniture.name }}</h2>
+    <p>{{ furniture.notes }}</p>
+    <ul>
+        <strong>Materiales del elemento</strong>
+        {% for material in furniture.materials.splitlines %}
+            <li>{{ material }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        <strong>Asignado a</strong>
+        {% for assign in furniture.assignments_furniture.all %}
+            <li>{{ assign.member }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

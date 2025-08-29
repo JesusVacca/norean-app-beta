@@ -1,0 +1,17 @@
+{% load static %}
+<div class="not_result">
+    <div class="not_result-code">404</div>
+    <img src="{% static 'assets/image/not_result.svg' %}" alt="Ilustración de página no encontrada" class="not_results-img">
+    <h4 class="no-results-text">
+        <i class="bi bi-search"></i>
+        No encontramos ningún resultado.
+    </h4>
+    <a href="#" class="primary-button" onclick="window.location.href='.'">
+        <i class="bi bi-arrow-left"></i>
+        {% if message %}
+        {{ message }}
+        {% else %}
+        Ver todos los usuarios
+        {% endif %}
+    </a>
+</div>

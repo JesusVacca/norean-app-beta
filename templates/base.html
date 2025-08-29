@@ -1,0 +1,133 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/utils.css' %}">
+    {% block styles %}
+    {% endblock styles %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>
+        {% block title %}
+            Template base
+        {% endblock title %}
+    </title>
+</head>
+<body>
+<main class="main" id="main">
+    <aside class="sidebar" id="sidebar" role="complementary" aria-label="Menú lateral">
+
+      <!-- Botón de colapsar -->
+      <button type="button" class="sidebar-button" id="sidebar-button" aria-label="Colapsar menú">
+        <i class="bi bi-caret-left" aria-hidden="true"></i>
+      </button>
+
+      <!-- Encabezado del panel -->
+      <header class="sidebar-header">
+        <img src="{% static 'assets/image/icon.svg' %}" alt="Logo de la aplicación" />
+        <div class="content-header">
+          <h1>Noreán App</h1>
+          <p>Panel de administración</p>
+        </div>
+      </header>
+
+      <!-- Navegación -->
+      <nav class="sidebar-menu-container" role="navigation" aria-label="Menú principal">
+        <ul class="menu">
+          <!-- Ítem: Dashboard -->
+          <li class="menu-item">
+            <a href="{% url 'management:core:dashboard' %}" class="menu-link">
+              <i class="bi bi-grid" aria-hidden="true"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="{% url 'management:members:list' %}" class="menu-link">
+              <i class="bi bi-people" aria-hidden="true"></i>
+              <span>Usuarios</span>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{% url 'management:classrooms:list' %}" class="menu-link">
+              <i class="bi bi-houses" aria-hidden="true"></i>
+              <span>Aulas</span>
+            </a>
+          </li>
+
+          <!-- Ítem: Inventario -->
+          <li class="menu-item menu-item-dropdowm">
+            <a href="#" class="menu-link" aria-expanded="false">
+              <i class="bi bi-boxes" aria-hidden="true"></i>
+              <span>Inventario</span>
+              <i class="bi bi-caret-down" aria-hidden="true"></i>
+            </a>
+            <ul class="sub-menu">
+              <li class="sub-menu-item">
+                <a href="{% url 'management:inventory:furniture' %}" class="sub-menu-link">Mobiliarios</a>
+              </li>
+              <li class="sub-menu-item">
+                <a href="#" class="sub-menu-link">Aparatos electrónicos</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="{% url 'management:roles-permissions' %}" class="menu-link">
+              <i class="bi bi-person-gear" aria-hidden="true"></i>
+              <span>Roles y permisos</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+        {% if user.is_authenticated %}
+      <footer class="sidebar-footer">
+        <div class="profile-avatar">
+            {{ user.first_name.0 }}
+        </div>
+        <div class="profile-data">
+            <div class="profile-name">{{ user.first_name }}</div>
+            <div class="profile-email">{{ user.email }}</div>
+        </div>
+        <a href="{% url 'authentication:logout' %}" class="profile-icon">
+            <i class="bi bi-box-arrow-left"></i>
+        </a>
+      </footer>
+        {% endif %}
+    </aside>
+    <div class="main__container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</main>
+{% block scripts %}
+{% endblock scripts %}
+<script src="{% static 'assets/scripts/base.js' %}"></script>
+{% if messages %}
+    <script>
+        const messagges = [];
+        {% for message in messages %}
+            messagges.push({
+                  title: '{{ message.tags|escapejs }}',
+                  text: '{{ message|escapejs }}',
+                  icon: '{{ message.tags|escapejs }}',
+                  confirmButtonText: 'Ok',
+            })
+        {% endfor %}
+
+        function showAlerts(index = 0) {
+            if (index < messagges.length) {
+                Swal.fire(messagges[index]).then(()=>{
+                    showAlerts(index = index + 1)
+                })
+            }
+        }
+        showAlerts()
+    </script>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card-custom">
+        <div class="table__filter__container-title">
+            <div class="table__filter-buttons start-items">
+                <a href="{% url 'management:members:list' %}" class="primary-button">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver atrás
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="form__card">
+        <div class="form__header">
+            <div class="form__title">Subir archivo</div>
+        </div>
+        <form
+                method="POST"
+                enctype="multipart/form-data"
+                class="form__upload__file"
+        >
+            {% csrf_token %}
+            <div class="form__group">
+                <label class="form__label-file" for="file_csv">
+                    <i class="bi bi-upload"></i>
+                    <input type="file" name="file_csv" id="file_csv" accept=".csv, .txt">
+                    <p class="file-title">Arrastra y suelta tu archivo aquí</p>
+                    <p class="file-subtitle">o haz clic para seleccionar uno</p>
+                    <p class="file-name">No se ha seleccionado ningún archivo</p>
+                </label>
+            </div>
+            <button
+                    type="submit"
+                    name="preview"
+                    class="primary-button"
+                    >
+                Siguente
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    window.addEventListener('DOMContentLoaded',function (){
+        const fileInput = document.getElementById('file_csv');
+        const fileName = document.querySelector('.file-name');
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                fileName.innerHTML = `
+                    Archivo cargado
+                    <strong>${file.name}</strong>
+                    <i class="bi bi-check-circle"></i>
+                `;
+                return
+            }
+            fileName.innerHTML = "No se ha seleccionado ningún archivo"
+        })
+    })
+</script>
+{% endblock scripts %}

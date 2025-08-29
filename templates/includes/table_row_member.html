@@ -1,0 +1,123 @@
+{% if member %}
+    <div class="table__row">
+        <div class="table__cell">
+            <div class="table__cell-info">
+                <div class="table__cell-icon">
+                    <span>{{ member.first_name.0|upper }}</span>
+                </div>
+                <div class="table__cell-info__content">
+                    <div class="table__cell-info__content-name">{{ member.first_name }}</div>
+                    <div class="table__cell-info__content-phone"><i class="bi bi-phone"></i> {{ member.phone_number }}</div>
+                    <div class="table__cell-info__content-phone"><i class="bi bi-person-vcard"></i>{{ member.document_number }}</div>
+                </div>
+            </div>
+        </div>
+        {% if "show_cell_email" in show_columns %}
+        <div class="table__cell">
+            <p class="table__cell-badge docente">
+                <i class="bi bi-envelope-at"></i>
+                {{ member.email }}
+            </p>
+        </div>
+        {% endif %}
+        {% if "show_cell_groups" in show_columns %}
+        <div class="table__cell">
+            {% with member.groups.all as user_groups %}
+              {% if user_groups|length == 1 %}
+                <p class="table__cell-badge {{ user_groups.first.name|lower }}">
+                    <i class="bi bi-mortarboard"></i>
+                    {{ user_groups.first.name }}
+                </p>
+              {% else %}
+                <select class="table__cell-select">
+                    {% for group in user_groups %}
+                    <option value="{{ group.name }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+              {% endif %}
+            {% endwith %}
+
+        </div>
+        {% endif %}
+        <div class="table__cell">
+            {% if member.is_superuser or member.is_staff %}
+                <p class="table__cell-badge info">
+                    <i class="bi bi-exclamation-diamond"></i>
+                    No aplica
+                </p>
+            {% else %}
+                {% if member.teacher_profile or member.student_profile %}
+                {% if member.teacher_profile %}
+                    <a
+                            href="{% url 'management:members:teacher-profile' pk=member.teacher_profile.pk %}"
+                            class="table__cell-badge docente {% if not member.teacher_profile.is_complete %} incomplete{% endif %}"
+                    >
+                        {% if member.teacher_profile.is_complete %}
+                            <i class="bi bi-check-circle"></i>
+                            Perfil de docente
+                        {% else %}
+                            <i class="bi bi-person-exclamation"></i>
+                            Perfil de docente incompleto
+                        {% endif %}
+                    </a>
+                {% endif %}
+                {% if member.student_profile %}
+                    <a
+                            href="{% url 'management:members:student-profile' pk=member.student_profile.pk %}"
+                            class="table__cell-badge estudiante {% if not member.student_profile.is_complete %} incomplete{% endif %}"
+                    >
+                        {% if member.student_profile.is_complete %}
+                            <i class="bi bi-check-circle"></i>
+                            Perfil de estudiante
+                        {% else %}
+                            <i class="bi bi-person-exclamation"></i>
+                            Perfil de estudiante incompleto
+                        {% endif %}
+                    </a>
+                {% endif %}
+                {% else %}
+                    <p class="table__cell-badge info">
+                    <i class="bi bi-exclamation-diamond"></i>
+                    No aplica
+                    </p>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        {% if "show_cell_active" in show_columns %}
+        <div class="table__cell cell-icon">
+            <form
+                    action="{% url 'management:members:toggle-status-member' email=member.email %}?search={{ search }}&selected_role={{ selected_role }}"
+                    class="table__cell-switch"
+                    method="POST"
+                    onclick="this.submit()"
+            >
+                {% csrf_token %}
+                <input type="checkbox" class="table__cell-switch__checkbox" {% if member.is_active %}checked{% endif %}>
+            </form>
+        </div>
+        {% endif %}
+        <div class="table__cell">
+            <p class="table__cell-badge info">
+                <i class="bi bi-calendar3"></i>
+                {{member.created_at}}
+            </p>
+        </div>
+        <div class="table__cell">
+            <p class="table__cell-badge">
+                <i class="bi bi-person-gear"></i>
+                {{ member.created_by }}
+            </p>
+        </div>
+        {% if "show_cell_actions" in show_columns %}
+        <div class="table__cell">
+            <div class="table__cell-acctions">
+                <a href="{% url 'management:members:update' email=member.email %}">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+{% endif %}

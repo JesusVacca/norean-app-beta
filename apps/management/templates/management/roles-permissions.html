@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="table__filter card-custom">
+        <div class="table__filter__container-title">
+            <h3 class="table__filter-title">
+                <i class="bi bi-filter-square"></i>
+                Filtrar
+            </h3>
+            <div class="table__filter-buttons">
+                <a href="{% url 'management:roles-permissions-create' %}" class="primary-button">
+                    <i class="bi bi-plus"></i>
+                    Agregar nuevo
+                </a>
+            </div>
+        </div>
+        <form class="table__filter-form" method="get">
+            <div class="table__filter-group">
+                <input
+                        class="form__input"
+                        type="text" placeholder="Buscar"
+                        aria-label="Buscar"
+                        name="search"
+                        value="{{ search }}"
+                >
+            </div>
+        </form>
+    </div>
+
+    <div class="table__container card-custom">
+        <div class="table">
+            <div class="table__header">
+                <div class="table__row">
+                    <div class="table__cell cell-icon">#</div>
+                    <div class="table__cell">Nombre</div>
+                    <div class="table__cell">Permisos asociados</div>
+                    <div class="table__cell">Acciones</div>
+                </div>
+            </div>
+            <div class="table__body">
+                {% for group in groups %}
+                <div class="table__row">
+                    <div class="table__cell cell-icon">{{ group.id }}</div>
+                    <div class="table__cell">{{ group.name }}</div>
+                    <div class="table__cell">
+                        {% if group.permissions.count > 0 %}
+                            <a
+                                    href="#"
+                                    class="table__cell-badge
+                                    docente btn-permission"
+                            >
+                                <i class="bi bi-eye"></i>
+                                <span>Ver permisos</span>
+                            </a>
+                        {% else %}
+                            <p class="table__cell-badge">Sin permisos</p>
+                        {% endif %}
+                    </div>
+                    <div class="table__cell">
+                        <div class="table__cell-acctions">
+                            <a href="#">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+    <script src="{% static 'assets/scripts/rolesPermission.js' %}"></script>
+{% endblock scripts %}

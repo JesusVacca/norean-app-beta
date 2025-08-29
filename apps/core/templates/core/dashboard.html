@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock styles %}
+{% block content %}
+    <div class="dashboard">
+        <div class="dashboard__row">
+            <div class="dashboard-col card-custom">
+                <div class="dashboard-header">Usuarios totales</div>
+                <div class="dashboard-content">
+                    <span class="dashboard-col-tag">{{ total_members }}</span>
+                    <i class="bi bi-people custom-i"></i>
+                </div>
+            </div>
+
+            {% for role in roles %}
+                  <div class="dashboard-col card-custom" aria-label="Roles del sistema">
+                    <div class="dashboard-header">{{ role.name|title }}</div>
+                    <div class="dashboard-content">
+                      <span class="dashboard-col-tag">{{ role.count }}</span>
+
+                      {% with n=role.name|lower|cut:" " %}
+                        {% if n == "superadministrador" %}
+                          <i class="bi bi-lock custom-i {{ n }}"></i>
+                        {% elif n == "administrador" %}
+                          <i class="bi bi-person-gear custom-i {{ n }}"></i>
+                        {% elif n == 'docente' %}
+                            <i class="bi bi-mortarboard custom-i {{ n }}"></i>
+                        {% elif n == 'estudiante' %}
+                            <i class="bi bi-book custom-i {{ n }}"></i>
+                        {% else %}
+                          <i class="bi bi-person custom-i"></i>
+                        {% endif %}
+                      {% endwith %}
+
+                    </div>
+                  </div>
+            {% endfor %}
+
+
+        </div>
+        <div class="dashboard__row dashboard__row-col-2">
+            <div class="dashboard-col card-custom">
+                <div class="dashboard-header">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    Roles por usuarios
+                </div>
+                <canvas id="rolesGraph"></canvas>
+            </div>
+            <div class="dashboard-col  card-custom">
+                <div class="dashboard-header">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    Mobiliarios por estado
+                </div>
+                <canvas id="furnitureGraph"></canvas>
+            </div>
+        </div>
+
+
+        {% if recent_members %}
+        <div class="dashboard__row dashboard__row-full-screen">
+            <div class="dashboard-col dashboard-col-2 card-custom">
+                <div class="dashboard-header">
+                    <i class="bi bi-stopwatch"></i>
+                    Usuarios recientes
+                </div>
+                <div class="table__container">
+                    {% include 'includes/table_members.html' with members=recent_members %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <input type="hidden" value="0" id="section-data">
+{% endblock content %}
+{% block scripts %}
+    {{ roles|json_script:"roles-data" }}
+    {{ furnitures|json_script:"furnitures-data" }}
+    <script src="{% static 'assets/scripts/dashboard.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,1 @@
+from .furniture_views import CreateFurnitureView, ListFurnitureView, DetailFurnitureView, UpdateFurnitureView

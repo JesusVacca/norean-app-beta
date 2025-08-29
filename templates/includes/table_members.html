@@ -1,0 +1,31 @@
+{% if members %}
+    <div class="table">
+    <div class="table__header">
+
+        <div class="table__row">
+            <div class="table__cell">Usuario</div>
+            {% if "show_cell_email" in show_columns %}
+            <div class="table__cell">Correo electrónico</div>
+            {% endif %}
+            {% if "show_cell_groups" in show_columns %}
+            <div class="table__cell">Grupo de usuario</div>
+            {% endif %}
+            <div class="table__cell">Perfil</div>
+            {% if "show_cell_active" in show_columns %}
+            <div class="table__cell cell-icon">Activo</div>
+            {% endif %}
+            <div class="table__cell">Fecha de creación</div>
+            <div class="table__cell">Creado por</div>
+            {% if "show_cell_actions" in show_columns %}
+            <div class="table__cell"><i class="bi bi-menu-app-fill"></i></div>
+            {% endif %}
+        </div>
+    </div>
+        <div class="table__body">
+        {% for member in members %}
+            {% include 'includes/table_row_member.html' with member=member show_columns=show_columns %}
+        {% endfor %}
+        </div>
+    </div>
+
+{% endif %}

@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inicia sesión</title>
+    <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <main class="main">
+        <div class="form__container">
+            <div class="form__card">
+                <div class="form__header">
+                    <img class="form__icon" src="{% static 'assets/image/icon.svg' %}" alt="logo">
+                    <h2 class="form__title">Bienvenido</h2>
+                    <p class="form__subtitle">Inicia sesión para poder continuar</p>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_custom }}
+                    <button type="submit" class="primary-button">Login</button>
+                </form>
+                <div class="form__footer">
+                    <a href="#">
+                        ¿Olvidó su contraseña?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% if messages %}
+    <script>
+        const messagges = [];
+        {% for message in messages %}
+            messagges.push({
+                  title: '{{ message.tags|escapejs }}',
+                  text: '{{ message|escapejs }}',
+                  icon: '{{ message.tags|escapejs }}',
+                  confirmButtonText: 'Ok',
+            })
+        {% endfor %}
+
+        function showAlerts(index = 0) {
+            if (index < messagges.length) {
+                Swal.fire(messagges[index]).then(()=>{
+                    showAlerts(index = index + 1)
+                })
+            }
+        }
+        showAlerts()
+    </script>
+{% endif %}
+</body>
+
+</html>

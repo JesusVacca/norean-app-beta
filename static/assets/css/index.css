@@ -1,0 +1,492 @@
+/* ──────────── IMPORTACIONES ──────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+:root{
+    --font-size-title:clamp(1.25rem, 1.0846rem + 0.8824vw, 2.1875rem);
+    --font-size-text:clamp(1rem, 0.9559rem + 0.2353vw, 1.25rem);
+    /* 🎨 Fondos */
+    --bg-main: #F9FAFB; /* Fondo principal de la página (body, layout general) */
+    --bg-alt: #F1F5F9;  /* Fondo alterno para secciones secundarias o sidebar */
+    --container-bg: #FFFFFF; /* Fondo de tarjetas, contenedores, modales, formularios */
+
+    /* 🧱 Bordes */
+    --border-color: #E5E7EB; /* Color para bordes suaves de tarjetas, inputs, etc */
+
+    /* ✏️ Textos */
+    --text-primary: #1F2937;   /* Texto principal (títulos, encabezados grandes) */
+    --text-secondary: #6B7280; /* Texto secundario (descripciones, textos pequeños) */
+    --heading: #1D4ED8;        /* Color para títulos destacados o encabezados principales */
+
+    /* 🔵 Botones */
+    --btn-primary: #3B82F6;        /* Color de fondo para botones primarios (acciones principales) */
+    --btn-primary-hover: #2563EB;  /* Color del botón primario al pasar el mouse (hover/focus) */
+
+    /* ⚠️ Estado de advertencia */
+    --btn-warning: #FACC15; /* Botón o mensaje de advertencia (acciones sensibles o alertas suaves) */
+
+    /* ❌ Estado de peligro */
+    --btn-danger: #EF4444;  /* Botones o mensajes de error (borrar, cancelar cuenta, etc.) */
+
+    /* ✅ Estado de éxito */
+    --btn-success: #10B981; /* Botón o mensaje de éxito (confirmaciones, operaciones exitosas) */
+
+    /* ℹ️ Estado informativo */
+    --info-color: #60A5FA;  /* Mensajes informativos o indicadores de estado neutro */
+
+    /* 🔗 Enlaces */
+    --link-color: #2563EB;  /* Color estándar para enlaces de navegación, "Ver más", etc. */
+    --border-radius: .4em;
+    --transition: all .2s ease-in-out;
+    --soft-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra elegante y sutil para tarjetas, modales o botones elevados */
+}
+
+html{
+    font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-family: "Tagesschrift", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--text-primary);
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    font-size: var(--font-size-text);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--text-secondary);
+    background: linear-gradient(90deg, var(--bg-main), var(--bg-alt), var(--bg-main));
+}
+
+.main{
+    width: 100%;
+    min-height: 100dvh;
+}
+.main .main__container{
+    padding: 3vw 2vw;
+    width: calc(100% - 280px);
+    margin-left: 280px;
+    transition: var(--transition);
+}
+
+
+/* Clases generales */
+
+.main-title{
+    font-size: var(--font-size-title);
+}
+.secondary-title{font-size: calc( var(--font-size-title) * .75 ); margin: .2em 0;}
+
+.primary-button,
+.secondary-button{
+    color: var(--container-bg);
+    background: var(--btn-primary);
+    padding: .5em 1em;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: block;
+    font-size: 1rem;
+}
+.secondary-button{
+    background: var( --text-primary);
+}
+.primary-button:hover,
+.secondary-button:hover{
+    transform: translateY(-4px);
+    background: var(--btn-primary-hover);
+}
+a.primary-button,
+a.secondary-button{text-decoration: none;}
+.card-custom{
+    padding: 1rem;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--soft-shadow);
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+}
+
+
+/* Form customs */
+.form__container{padding: 3vw;}
+.form__card {
+    background-color: var(--container-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--soft-shadow);
+    border: 1px solid var(--border-color);
+    max-width: 500px;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+
+.form__header,
+.form__footer{
+    width: 100%;
+    margin-bottom: 1.5em;
+}
+.form__header .form__icon{
+    width: 70px;
+    aspect-ratio: 1/1;
+    background: var(--btn-primary);
+    color: #FFFFFF;
+    font-size: 2.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    margin: auto;
+}
+
+.form__title,
+.form__subtitle{
+    width: 100%;
+    text-align: center;
+}
+.form__title{
+    font-size: var(--font-size-title);
+    font-weight: 500;
+}
+
+.form__footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form__footer a{
+    font-size: 1rem;
+    transition: var(--transition);
+    color: var(--btn-success);
+    text-decoration: none;
+}
+.form__footer a:hover{text-decoration: underline;}
+/* Inputs y labels */
+.form__group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+.form__error{
+    font-size: .9rem;
+    color: var(--btn-danger);
+    display: inline-block;
+    margin: .2em 0;
+}
+.form__label {
+    font-size: var(--font-size-text);
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+.form__label[data-required='true']:after{
+    content: '*';
+    color: var(--btn-danger);
+}
+
+.form__input{
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: .9rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-alt);
+    transition: var(--transition);
+    resize: none;
+}
+
+
+.form__input-error {
+    border-color: var(--btn-danger);
+    background:var(--container-bg);
+}
+
+.form__input:focus {
+    outline: none;
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Form upload file */
+.form__label-file{
+    border: 2px dashed;
+    width: 100%;
+    height: 250px;
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    cursor: pointer;
+}
+.form__label-file i{
+    font-size: 2.5rem;
+}
+.form__label-file .file-title{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.form__label-file .file-subtitle{
+    font-size: 1rem;
+    opacity: .9;
+}
+.form__label-file .file-name{
+    font-size: 1rem;
+    font-weight: 400;
+    display: inline-flex;
+    gap: .5em;
+    align-items: center;
+}
+.form__label-file .file-name i{
+    color: var(--btn-success);
+    font-size: 25px;
+}
+.form__label-file input[type='file']{
+    display: none;
+}
+
+
+/* Sidebar */
+/* ──────────── SIDEBAR ──────────── */
+.sidebar {
+    width: 280px;
+    height: 100%;
+    position: fixed;
+    background: var(--container-bg);
+    box-shadow: 0 0 2px var(--sombra-media);
+    padding: 1em;
+    transition: var(--transition);
+    z-index: 50;
+}
+
+.sidebar.toggle {
+  transform: translateX(-100%);
+}
+
+.sidebar.toggle .sidebar-button {
+  left: 105%;
+  rotate: 180deg;
+}
+
+/* Botón flotante del sidebar */
+.sidebar-button {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 3%;
+  right: -20px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--container-bg);
+  box-shadow: var(--soft-shadow);
+  font-size: 1.2rem;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: rotate 0.2s ease-in-out;
+  animation: pulseFocus 5s linear infinite;
+}
+
+/* Header del sidebar */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  height: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebar-header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.content-header {
+  width: calc(100% - 70px);
+}
+
+.content-header h1 {
+  font-size: 1.1rem;
+}
+
+.content-header p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* __________ footer del sidebar _________ */
+.sidebar-footer{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    gap: .3em;
+    align-items: center;
+    justify-content: space-around;
+}
+.sidebar-footer .profile-avatar{
+    width: 45px;
+    aspect-ratio: 1;
+    display: grid;
+    place-content: center;
+    font-size: 1.7rem;
+    text-transform: capitalize;
+    border: 3px solid var(--border-color);
+    border-radius: 1rem;
+    font-weight: bold;
+}
+.sidebar-footer .profile-icon{
+    width: 40px;
+    aspect-ratio: 1;
+    font-size: 1.4rem;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    color: tomato;
+}
+.sidebar-footer .profile-data{
+    width: calc(100% - 85px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: .1em;
+}
+.sidebar-footer .profile-data .profile-name{
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+.sidebar-footer .profile-data .profile-email{
+    font-size: .7rem;
+}
+/* ──────────── MENÚ ──────────── */
+.sidebar-menu-container {
+  height: calc(100% - 140px);
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-primary) var(--container-bg);
+}
+
+.menu {
+  padding: 0.5em;
+}
+
+.menu-item {
+  list-style: none;
+  margin: 0.1em 0;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 0.5em;
+    color: var(--text-secondary);
+}
+
+.menu-link i {
+  padding: 0.5em;
+}
+
+.menu-link.active {
+  background: var(--btn-primary);
+  color: var(--container-bg);
+  /* Línea lateral animada */
+  border-left: 6px solid var(--btn-success);
+}
+
+/* Dropdown */
+.menu-item-dropdowm .menu-link i:last-child {
+  margin-left: auto;
+  transition: rotate 0.2s ease-in-out;
+}
+
+.menu-item-dropdowm.menu-item-toggle .menu-link i:last-child {
+  rotate: 180deg;
+}
+
+/* ──────────── SUBMENÚ ──────────── */
+.sub-menu {
+  list-style: none;
+  height: 0;
+  overflow: hidden;
+  padding-left: 2em;
+  position: relative;
+  transition: height 0.2s ease-in-out;
+}
+
+.sub-menu::before {
+  content: '';
+  position: absolute;
+  left: 1.8em;
+  width: 2px;
+  height: 100%;
+  background: #00000019;
+}
+
+.sub-menu-link {
+  display: flex;
+  margin: 0.4em 0;
+  margin-left: 0.5em;
+  padding: 0.7em 1em;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  border-radius: 0.5em;
+}
+
+.sub-menu-link:hover {
+  background: var(--bg-alt);
+}
+
+
+.sidebar.toggle + .main__container{
+    width: 100%;
+    margin-left: 0;
+}
+
+/* Animations */
+@keyframes pulseFocus {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 102, 204, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 204, 0);
+  }
+}
+
+
+@media screen and (max-width: 1023px){
+    .main .main__container{
+        width: 100%;
+        margin-left: 0;
+    }
+    .main-title, .secondary-title{text-align: center;}
+}

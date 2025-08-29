@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card-custom">
+        <div class="table__filter__container-title">
+            <h3 class="table__filter-title">
+                <i class="bi bi-people"></i>
+                Vista previa. <br> Usuarios cargados {{ session_data|length }}
+            </h3>
+            <div class="table__filter-buttons">
+                <a href="{% url 'management:members:list' %}" class="primary-button">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver atrás
+                </a>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <button
+                            type="submit"
+                            class="secondary-button"
+                            name="confirm"
+                            onclick="document.querySelector('.spinner').style.display = 'flex'"
+                            style="width: 100%; text-align: start;"
+                    >
+                        <i class="bi bi-check"></i>
+                        Confirmar creación
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    {% if session_data %}
+        <div class="table__container card-custom">
+            <div class="table">
+                <div class="table__header">
+                    <div class="table__row">
+                        <div class="table__cell">Nombres</div>
+                        <div class="table__cell">Numero de telefono</div>
+                        <div class="table__cell">Tipo de documento</div>
+                        <div class="table__cell">Número de documento</div>
+                    </div>
+                </div>
+                <div class="table__body">
+                    {% for member in session_data %}
+                    <div class="table__row">
+                        <div class="table__cell">
+                            <div class="table__cell-info">
+                                <div class="table__cell-icon">
+                                    <span translate="no">{{ member.first_name.0|upper }}</span>
+                                </div>
+                                <div class="table__cell-info__content">
+                                    <div class="table__cell-info__content-name">{{ member.first_name }}</div>
+                                    <div class="table__cell-info__content-phone">{{ member.last_name }}</div>
+                                    <div class="table__cell-info__content-email">{{ member.email }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__cell">
+                            <p class="table__cell-badge estudiante">
+                                <i class="bi bi-phone"></i>
+                                {{ member.phone_number }}
+                            </p>
+                        </div>
+                        <div class="table__cell">
+                            <p class="table__cell-badge">{{ member.document_type }}</p>
+                        </div>
+                        <div class="table__cell">{{ member.document_number }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% include 'includes/spinner.html' with visible=False %}
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block content %}
+     <div class="modal-custom">
+    </div>
+    <h2 class="main-title">
+    <i class="bi bi-boxes"></i>
+        Listado de todos los mobiliarios del sistema
+    </h2>
+    <p class="secondary-title">
+        En esta sección encontrarás toda la información relacionada con cada mobiliario.
+    </p>
+    <div class="table__filter card-custom">
+        <div class="table__filter__container-title">
+            <h3 class="table__filter-title">
+                <i class="bi bi-filter-square"></i>
+                Filtrar
+            </h3>
+            <div class="table__filter-buttons">
+                <a href="{% url 'management:inventory:create-furniture' %}" class="primary-button">
+                    <i class="bi bi-plus"></i>
+                    Agregar nuevo
+                </a>
+            </div>
+        </div>
+        <form class="table__filter-form" method="get">
+            <div class="table__filter-group">
+                <input
+                        class="form__input"
+                        type="text" placeholder="Buscar"
+                        aria-label="Buscar"
+                        name="search"
+                        value="{{ search }}"
+                >
+            </div>
+        </form>
+    </div>
+    <div class="table__container card-custom">
+        {% if furnitures %}
+        <div class="table__pagination">
+            <div class="table__pagination__total">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}, mobiliarios {{ page_obj.paginator.count }}
+            </div>
+            <div class="table__pagination__buttons">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Anterior</span>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                        <i class="bi bi-arrow-left"></i>
+                        <span>Anterior</span>
+                    </span>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search }}&selected_role={{ selected_role }}" class="table__pagination__button">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                {% else %}
+                    <span class="table__pagination__button disabled">
+                    <span>Siguiente</span>
+                    <i class="bi bi-arrow-right"></i>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="table">
+            <div class="table__header">
+                <div class="table__row">
+                    <div class="table__cell">Nombre</div>
+                    <div class="table__cell">Fecha de creación</div>
+                    <div class="table__cell cell-icon">Estado</div>
+                    <div class="table__cell cell-icon">Activo</div>
+                    <div class="table__cell"><i class="bi bi-menu-app-fill"></i></div>
+                </div>
+            </div>
+            <div class="table__body">
+                {% for furniture in furnitures %}
+                    <div class="table__row">
+                        <div class="table__cell">
+                            <div class="table__cell-info">
+                                <div class="table__cell-icon">
+                                    <span>{{ furniture.name.0|upper }}</span>
+                                </div>
+                                <div class="table__cell-info__content">
+                                    <div class="table__cell-info__content-name">{{ furniture.name }}</div>
+                                    <div class="table__cell-info__content-phone"><i class="bi bi-upc"></i>{{ furniture.code }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table__cell">
+                            <p class="table__cell-badge docente">
+                                <i class="bi bi-calendar2-week"></i>
+                                {{ furniture.created_at }}
+                            </p>
+                        </div>
+                        <div class="table__cell cell-icon">
+                            <p class="table__cell-badge {{ furniture.status|slugify|lower }}">{{furniture.status|title}}</p>
+                        </div>
+                        <div class="table__cell cell-icon">
+                            <form
+                                action=""
+                                class="table__cell-switch"
+                            >
+                                {% csrf_token %}
+                                <input type="checkbox" class="table__cell-switch__checkbox" aria-label="Toggle Active">
+                                <span class="checkbox-slider"></span>
+                            </form>
+                        </div>
+                        <div class="table__cell">
+                            <div class="table__cell-acctions">
+                                <a href="{% url 'management:inventory:update-furniture' code=furniture.code %}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button
+                                        type="button"
+                                        data-url-qrcode="{{ furniture.qr_code }}"
+                                        class="button-open-modal-qr"
+                                >
+                                    <i class="bi bi-qr-code"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+            {% include 'includes/not_result.html' %}
+        {% endif %}
+    </div>
+    <input type="hidden" value="3" id="section-data">
+{% endblock content %}
+{% block scripts %}
+<script>
+    window.addEventListener('DOMContentLoaded',function () {
+        const buttonsOpenModal = document.querySelectorAll('.button-open-modal-qr');
+        const modalQrCode = document.querySelector('.modal-custom');
+
+        modalQrCode.addEventListener('click', () => {modalQrCode.classList.remove('open-modal')})
+
+        buttonsOpenModal.forEach((button) => {
+            button.addEventListener('click',()=>{
+                const imageUrl = button.getAttribute('data-url-qrcode');
+                modalQrCode.innerHTML = `
+                    <div class="modal__qr__content">
+                        <h4>Código QR<h4/>
+                        <img src="${imageUrl}" alt="QR del mobiliario">
+                        <a href="${imageUrl}" download="qr-image.png" title="Descargar QR">Descargar</a>
+                    </div>
+                `;
+                modalQrCode.querySelector('.modal__qr__content')
+                    .addEventListener('click',(e)=>e.stopPropagation());
+                modalQrCode.classList.add('open-modal')
+            })
+        })
+
+
+    })
+</script>
+{% endblock scripts %}
