@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'norean_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE'),
-        'USER': os.getenv('MYSQL_USER'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('MYSQL_HOST'),
-        'PORT': os.getenv('MYSQL_PORT'),
+        'NAME': "b4uye02zosvlyhvuxd44", #os.getenv('MYSQL_DATABASE'),
+        'USER': "uiacpmjwoeveti76", #os.getenv('MYSQL_USER'),
+        'PASSWORD': "fZqdvZaCX8CaElVtZmVt", #os.getenv('MYSQL_PASSWORD'),
+        'HOST': "b4uye02zosvlyhvuxd44-mysql.services.clever-cloud.com", #os.getenv('MYSQL_HOST'),
+        'PORT': "3306", #os.getenv('MYSQL_PORT'),
     }
 }
 
