@@ -1,0 +1,1 @@
+web: guinicor norean_app.wsgi
