@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -32,7 +33,6 @@ SECRET_KEY = 'django-insecure-#80a4nx-%qwac2aao2&#(7joz+u&(dd1xjnx0ksl$0=znqvq7h
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
-print(os.getenv('ALLOWED_HOSTS'))
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,17 +86,7 @@ WSGI_APPLICATION = 'norean_app.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('ENGINE'),
-        'NAME': os.getenv('MYSQL_DATABASE'),
-        'USER': os.getenv('MYSQLUSER'),
-        'PASSWORD': os.getenv('MYSQLPASSWORD'),
-        'HOST': os.getenv('MYSQLHOST'),
-        'PORT': os.getenv('MYSQLPORT'),
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
-        },
-    }
+    'default': dj_database_url.config(default=os.environ.get("MYSQL_URL"))
 }
 
 
