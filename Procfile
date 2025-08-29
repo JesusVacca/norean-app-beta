@@ -1,1 +1,1 @@
-web: guinicor norean_app.wsgi
+web: gunicorn norean_app.wsgi
