@@ -20,7 +20,7 @@ class LoginView(View):
         return render(
             request,
             'authentication/login.html',{
-                'form': self.form_class,
+                'form': self.form_class(),
             }
         )
     def post(self, request, *args, **kwargs):
