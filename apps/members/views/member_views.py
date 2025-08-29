@@ -163,31 +163,26 @@ class CreateMultipleMembersByCSVView(View):
         seen_emails = set()
         seen_document_numbers = set()
         total_members_load = 0
-        total_members_saved = 0
-
-
 
         # ---- First filter ----
         for member in cache_members:
             email = member['email']
             document_number = member['document_number']
-            total_members_load +=1
-            if(
-                    Member.objects.filter(email=email).exists() or
-                    Member.objects.filter(document_number=document_number).exists()
+            total_members_load += 1
+            if (
+                    Member.objects.filter(email=email).exists()
+                    or Member.objects.filter(document_number=document_number).exists()
             ):
                 continue
             distinct_members.append(member)
 
         # ----- Second filter -----
-
         for member in distinct_members:
             email = member['email']
             document_number = member['document_number']
             if email not in seen_emails and document_number not in seen_document_numbers:
                 seen_emails.add(email)
                 seen_document_numbers.add(document_number)
-                clean_members.append(member)
                 member_instance = Member(
                     email=email,
                     document_number=document_number,
@@ -200,25 +195,34 @@ class CreateMultipleMembersByCSVView(View):
                 member_instance.set_password(str(document_number))
                 build_members.append(member_instance)
 
-        response = Member.objects.bulk_create(build_members)
-        for member_instance in response:
-            total_members_saved +=1
-            member_instance.groups.set([student_group])
-            member_instance.save()
+        # Inserción masiva
+        created_members = Member.objects.bulk_create(build_members, batch_size=500)
+
+        # Relación M2M masiva
+        MemberGroup = Member.groups.through
+        group_links = [
+            MemberGroup(member_id=m.id, group_id=student_group.id)
+            for m in created_members
+        ]
+        MemberGroup.objects.bulk_create(group_links, batch_size=500)
+
+        # Limpieza de sesión
         del request.session['session_data']
 
+        # Notificación
+        total_members_saved = len(created_members)
         if total_members_load > 0:
             notify.notify(
                 request=request,
                 message=f'Usuarios creados {total_members_saved} de {total_members_load} cargados'
             )
-
             if total_members_saved > 0:
                 notify.notify(
                     request=request,
-                    message=f'La contraseña de cada usuario, es su número de documento',
+                    message=f'La contraseña de cada usuario es su número de documento',
                     level='info'
                 )
+
 
 
 
