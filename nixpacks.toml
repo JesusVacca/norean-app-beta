@@ -1,2 +1,2 @@
 [phases.setup]
-nixPkgs = ["python313", "gcc", "pkg-config", "mariadb-dev"]
+nixPkgs = ["python313", "gcc", "pkg-config", "mariadb"]
