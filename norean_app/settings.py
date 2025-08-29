@@ -33,8 +33,8 @@ SECRET_KEY = 'django-insecure-#80a4nx-%qwac2aao2&#(7joz+u&(dd1xjnx0ksl$0=znqvq7h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'web-production-66fb0.up.railway.app',
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',') or [
+    'web-production-5374.up.railway.app',
     'localhost',
     '127.0.0.1',
 ]
@@ -157,7 +157,7 @@ EMAIL_HOST_USER = 'jesus.vacca99@gmail.com'
 EMAIL_HOST_PASSWORD = 'ctcu bxtq ytoj jzwd'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-SITE_URL='web-production-66fb0.up.railway.app'
+SITE_URL='web-production-5374.up.railway.app'
 CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-66fb0.up.railway.app'
+    'https://web-production-5374.up.railway.app'
 ]
